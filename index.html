@@ -1,0 +1,537 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="description" content="Canvas is an HTML5 element used to draw graphics, on the fly, via JS">
+		<meta name="author" content="Aliaksandr Sitnikau">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+		<title>HTML5 Canvas</title>
+		<link rel="stylesheet" href="css/reset.css">
+		<link rel="stylesheet" href="css/reveal.css">
+		<link rel="stylesheet" href="css/theme/league.css">
+		<link rel="stylesheet" href="lib/css/monokai.css">
+		<script>
+			var link = document.createElement( 'link' );
+			link.rel = 'stylesheet';
+			link.type = 'text/css';
+			link.href = window.location.search.match( /print-pdf/gi ) ? 'css/print/pdf.css' : 'css/print/paper.css';
+			document.getElementsByTagName( 'head' )[0].appendChild( link );
+		</script>
+	</head>
+	<body>
+		<div class="reveal">
+			<div class="slides">
+				<section><h1><a href="https://www.w3schools.com/html/html5_canvas.asp" target="blank">HTML5 Canvas</a></h1></section>
+				<section>
+					<section>
+						<h2>Canvas attributes</h2>
+						<pre>
+							<code class="hljs html">		  <canvas id="some-canvas"></canvas></code>
+						</pre>
+					</section>
+					<section>
+						<h2>Width & Height</h2>
+						<pre>
+							<code class="hljs html">      <canvas id="some-canvas" width="150" height="150"></canvas></code>
+						</pre>
+					</section>
+					<section>
+						<h2>Fallback content</h2>
+						<pre>
+							<code class="hljs html">       <canvas id="some-canvas"> Some fallback content </canvas></code>
+						</pre>
+					</section>
+				</section>
+				<section>
+					<section>
+						<h2 style="text-transform: none;">getContext() method</h2>
+					</section>
+					<section>
+						<h2 style="text-transform: none;">canvas.getContext('2d');</h2>
+						<pre>
+							<code class="hljs html"><canvas id="cs" width="150" height="150">Fallback content</canvas>
+<script type="text/javascript">
+	let canvas = document.getElementById('cs');
+	let ctx = canvas.getContext('2d');
+</script>
+							</code>
+						</pre>
+					</section>
+				</section>
+				<section>
+					<section>
+						<h2>Browser support</h2>
+					</section>
+					<section>
+						<h2>Checking for browser support</h2>
+						<p><small>For example:</small>
+							<pre>
+								<code class="hljs html"><canvas id="tutorial" width="150" height="150">FC</canvas>
+<script type="text/javascript">
+	let canvas = document.getElementById('tutorial');
+	if (canvas.getContext){
+		let ctx = canvas.getContext('2d');
+		// drawing code here
+	} else {
+		// canvas-unsupported code here
+	}
+</script>
+								</code>
+							</pre>
+						</p>
+					</section>
+				</section>
+				<section>
+					<h2>The canvas grid</h2>
+					<img width="533" height="407" data-src="./assets/canvas_grid.jpg" alt="Canvas Grid">
+				</section>
+				<section>
+					<section>
+						<h3>Rectangles, circles, lines and curves</h3>
+					</section>
+					<section>
+						<h3>Rectangles</h3>
+						<p><small>Example:</small>
+							<pre>
+								<code class="hljs html"><canvas id="canvas" width="150" height="150"></canvas>
+<script type="text/javascript">
+	function draw() {
+		let canvas = document.getElementById('canvas');
+		if (canvas.getContext) {
+			let ctx = canvas.getContext('2d');
+
+			ctx.fillRect(25,25,100,100);
+			ctx.clearRect(45,45,60,60);
+			ctx.strokeRect(50,50,50,50);
+		}
+	}
+</script></code>
+							</pre>
+						</p>
+					</section>
+					<section>
+							<h3>Rectangles</h3>
+							<p><small>Result:</small></p>
+							<img width="165" height="162" data-src="./assets/rectangles.png" alt="Rectangle">
+						</section>
+					<section>
+						<h3>Circles</h3>
+						<p><small>Example:</small>
+							<pre>
+								<code class="hljs html"><canvas id="canvas" width="150" height="150"></canvas>
+<script type="text/javascript">
+	function draw() {
+		var canvas = document.getElementById('canvas');
+		if (canvas.getContext) {
+			var ctx = canvas.getContext('2d');
+
+			ctx.beginPath();
+			ctx.arc(75,75,50,0,Math.PI*2,true);
+			ctx.stroke(); // if we want a filled
+					// circle use ctx.fill()
+		}
+	}
+</script></code>
+							</pre>
+						</p>
+					</section>
+					<section>
+						<h3>Circles</h3>
+						<p><small>Result:</small></p>
+						<img width="140" height="140" data-src="./assets/circle.png" alt="Circle">
+					</section>
+					<section>
+						<h4>Radius</h4>
+						<p><small>radians = (Math.PI/180)*degrees</small></p>
+					</section>
+				</section>
+				<section>
+					<section>
+						<h2>Drawing lines</h2>
+					</section>
+					<section>
+						<h2 style="text-transform: none;">beginPath()</h2>
+						<p>
+							<small>Example:</small>
+							<pre>
+								<code class="hljs js">function draw() {
+	let canvas = document.getElementById('canvas');
+	if (canvas.getContext){
+		let ctx = canvas.getContext('2d');
+	
+		ctx.beginPath();
+		// draw shapes methods
+		}
+	}</code>
+							</pre>
+						</p>
+					</section>
+					<section>
+						<h2 style="text-transform: none;">closePath() VS fill()</h2>
+						<p>
+							<small>Example:</small>
+							<pre>
+								<code class="hljs js">function draw() {
+	let canvas = document.getElementById('canvas');
+	if (canvas.getContext){
+		let ctx = canvas.getContext('2d');
+
+		ctx.beginPath();
+		// draw shapes methods
+		ctx.closePath();
+	}
+}</code>
+							</pre>
+						</p>
+					</section>
+					<section>
+						<h2 style="text-transform: none;">stroke()</h2>
+						<p>
+							<small>Example:</small>
+							<pre>
+								<code class="hljs js">function draw() {
+	let canvas = document.getElementById('canvas');
+	if (canvas.getContext){
+		let ctx = canvas.getContext('2d');
+
+		ctx.beginPath();
+		ctx.arc(75,75,50,0,Math.PI*2,true); // Draw a circle
+		ctx.stroke();
+	}
+}</code>
+							</pre>
+						</p>
+					</section>
+					<section>
+						<h2 style="text-transform: none;">stroke()</h2>
+						<p><small>Result:</small></p>
+						<img width="140" height="140" data-src="./assets/circle.png" alt="Circle">
+					</section>
+					<section>
+						<h2 style="text-transform: none;">moveTo()</h2>
+						<p>
+							<small>Example:</small>
+							<pre>
+								<code class="hljs js">function draw() {
+  let canvas = document.getElementById('canvas');
+  if (canvas.getContext){
+    let ctx = canvas.getContext('2d');
+
+    ctx.beginPath();
+    ctx.arc(75,75,50,0,Math.PI*2,true); // Draw a circle
+    ctx.moveTo(110,75);
+    ctx.arc(75,75,35,0,Math.PI,false);   // Draw 2nd circle
+    ctx.moveTo(65,65);
+    ctx.arc(60,65,5,0,Math.PI*2,true);  // Draw 3rd circle
+    ctx.moveTo(95,65);
+    ctx.arc(90,65,5,0,Math.PI*2,true);  // Draw 4th circle
+    ctx.stroke();
+  }
+}</code>
+							</pre>
+						</p>
+					</section>
+					<section>
+						<h2 style="text-transform: none;">moveTo()</h2>
+						<p><small>Result:</small></p>
+						<img width="140" height="140" data-src="./assets/moveto.png" alt="smile">
+					</section>
+				</section>
+				<section>
+					<section>
+						<h2>Bezier curves</h2>
+						<p><small>quadraticCurveTo(cp1x, cp1y, x, y)</small></p>
+						<p><small>bezierCurveTo(cp1x, cp1y, cp2x, cp2y, x, y)</small></p>
+					</section>
+					<section>
+						<h2>Draw a heart</h2>
+						<p>
+							<small>Example:</small>
+							<pre>
+								<code class="hljs js">function draw() {
+	let canvas = document.getElementById('canvas');
+	if (canvas.getContext){
+		let ctx = canvas.getContext('2d');
+		// Quadratric curves example
+		ctx.beginPath();
+		ctx.moveTo(75,40);
+		ctx.bezierCurveTo(75,37,70,25,50,25);
+		ctx.bezierCurveTo(20,25,20,62.5,20,62.5);
+		ctx.bezierCurveTo(20,80,40,102,75,120);
+		ctx.bezierCurveTo(110,102,130,80,130,62.5);
+		ctx.bezierCurveTo(130,62.5,130,25,100,25);
+		ctx.bezierCurveTo(85,25,75,37,75,40);
+		ctx.fill();
+	}
+}</code>
+							</pre>
+						</p>
+					</section>
+					<section>
+						<h2>Draw a heart</h2>
+						<p><small>Result:</small></p>
+						<img width="145" height="146" data-src="./assets/heart.png" alt="heart">
+					</section>
+				</section>
+				<section>
+						<h2>Colors and gradients</h2>
+				</section>
+				<section>
+					<section>
+						<h2>Colors</h2>
+						<p><small>Possible color values: "orange", "#FFA500", "rgb(255,165,0)", "rgba(255,165,0,1)"</small></p>
+					</section>
+					<section>
+						<h2>Red heart</h2>
+						<p>
+							<small>Example:</small>
+							<pre>
+								<code class="hljs js">function drawRedHeart() {
+let canvas = document.getElementById('red-heart');
+	if (canvas.getContext){
+		let ctx = canvas.getContext('2d');
+		ctx.beginPath();
+		ctx.moveTo(75,40);
+		ctx.bezierCurveTo(75,37,70,25,50,25);
+		ctx.bezierCurveTo(20,25,20,62.5,20,62.5);
+		ctx.bezierCurveTo(20,80,40,102,75,120);
+		ctx.bezierCurveTo(110,102,130,80,130,62.5);
+		ctx.bezierCurveTo(130,62.5,130,25,100,25);
+		ctx.bezierCurveTo(85,25,75,37,75,40);
+		ctx.fillStyle = "red";
+		ctx.strokeStyle = "#000000";
+		ctx.fill();
+		ctx.stroke();
+	}
+}
+</code>
+							</pre>
+						</p>
+					</section>
+					<section>
+						<h2>Red heart</h2>
+						<p><small>Result:</small></p>
+						<img width="151" height="145" data-src="./assets/redheart.png" alt="Red heart">
+					</section>
+					<section>
+						<h2>Transparency</h2>
+						<p>
+							<small>Example:</small>
+							<pre>
+								<code class="hljs js">function drawRedHeart() {
+	let canvas = document.getElementById('red-heart');
+	if (canvas.getContext){
+		let ctx = canvas.getContext('2d');
+		ctx.fillStyle = "blue";
+		ctx.fillRect(50,50,100,50);
+		ctx.beginPath();
+		ctx.moveTo(75,40);
+		ctx.bezierCurveTo(75,37,70,25,50,25);
+		ctx.bezierCurveTo(20,25,20,62.5,20,62.5);
+		ctx.bezierCurveTo(20,80,40,102,75,120);
+		ctx.bezierCurveTo(110,102,130,80,130,62.5);
+		ctx.bezierCurveTo(130,62.5,130,25,100,25);
+		ctx.bezierCurveTo(85,25,75,37,75,40);
+		ctx.fillStyle = "rgba(255, 0, 0, 0.5)";
+		ctx.strokeStyle = "#000000";
+		ctx.fill();
+		ctx.stroke();
+	}
+}</code>
+							</pre>
+						</p>
+					</section>
+					<section>
+						<h2>Transparency</h2>
+						<p><small>Result:</small></p>
+						<img width="173" height="148" data-src="./assets/transparency.png" alt="transparency red heart">
+					</section>
+				</section>
+				<section>
+					<h2>Line styles</h2>
+					<p><small>lineWidth =</small></p>
+					<p><small>lineCap =</small></p>
+					<p><small>lineJoin =</small></p>
+					<p><small>miterLimit =</small></p>
+				</section>
+				<section>
+					<section>
+						<h2>Gradients</h2>
+						<p><small>createLinearGradient(x1, y1, x2, y2)</small></p>
+						<p><small>createRadialGradient(x1, y1, r1, x2, y2, r2)</small></p>
+						<p><small>gradient.addColorStop(position, color)</small></p>
+					</section>
+					<section>
+						<h2>Gradients</h2>
+						<p>
+							<small>Example:</small>
+							<pre>
+								<code class="hljs js">function drawGradientHeart() {
+  let canvas = document.getElementById('canvas');
+  if (canvas.getContext){
+    let ctx = canvas.getContext('2d');
+    let lineargradient = ctx.createLinearGradient(0,0,150,150);
+    lineargradient.addColorStop(0,'white');
+    lineargradient.addColorStop(1,'black');
+    ctx.beginPath();
+    ctx.moveTo(75,40);
+    ctx.bezierCurveTo(75,37,70,25,50,25);
+    ctx.bezierCurveTo(20,25,20,62.5,20,62.5);
+    ctx.bezierCurveTo(20,80,40,102,75,120);
+    ctx.bezierCurveTo(110,102,130,80,130,62.5);
+    ctx.bezierCurveTo(130,62.5,130,25,100,25);
+    ctx.bezierCurveTo(85,25,75,37,75,40);
+    ctx.fillStyle = lineargradient;
+    ctx.fillStroke = "red";
+    ctx.fill();
+    ctx.stroke();
+  }
+}</code>
+							</pre>
+						</p>
+					</section>
+					<section>
+						<h2>Gradients</h2>
+						<p><small>Result:</small></p>
+						<img width="157" height="154" data-src="./assets/gradientheart.png" alt="Gradient heart">
+					</section>
+				</section>
+				<section>
+					<section>
+						<h2>Images</h2>
+						<p>
+							<small>Example:</small>
+							<pre>
+								<code class="hljs js">let img = new Image();   // Create new img element
+img.src = 'myImage.png'; // Set source path	</code>
+							</pre>
+						</p>
+					</section>
+					<section>
+						<h2 style="text-transform: none;">drawImage(image, x, y)</h2>
+					</section>
+					<section>
+						<h2>Scaling and slicing</h2>
+						<p><small>drawImage(image, x, y, width, height)</small></p>
+						<p><small>drawImage(image, sx, sy, sWidth, sHeight, dx, dy, dWidth, dHeight)</small></p>
+					</section>
+					<section>
+						<h2>Patterns</h2>
+						<p>
+							<small>createPattern(image, "repeat")</small>
+						</p>
+						<p>
+							<small>Example:</small>
+							<pre>
+								<code class="hljs js">function draw() {
+	let ctx = document.getElementById('canvas').getContext('2d');
+
+	// create new image object to use as pattern
+	let img.src = 'img/pattern.png';
+	img.onload = function(){
+		// create pattern
+		var patern = ctx.createPattern(img,'repeat');
+		ctx.fillStyle = patern;
+		ctx.fillRect(0,0,150,150);
+
+	}
+}</code>
+							</pre>
+						</p>
+					</section>
+					<section>
+						<h2>Patterns</h2>
+						<p><small>Result:</small></p>
+						<img width="157" height="154" data-src="./assets/patterns.png" alt="Pattern result">
+					</section>
+				</section>
+				<section>
+					<section>
+						<h2>Text and text shadow</h2>
+					</section>
+					<section>
+						<h2>Text</h2>
+						<p>
+							<small>Example:</small>
+							<pre>
+								<code class="hljs js">function drawText() {
+	let canvas = document.getElementById('canvas-text');
+	if (canvas.getContext){
+		let ctx = canvas.getContext('2d');
+		ctx.font = "50px SapientSansLightItalic";
+		ctx.fillStyle = "#FF0000";
+		ctx.fillText ("Sapient Nitro", 50, 80);
+	}
+}</code>
+							</pre>
+						</p>
+					</section>
+					<section>
+						<h1>Text</h1>
+						<p><small>Result:</small></p>
+						<img width="350" height="133" data-src="./assets/text.png" alt="Canvas text">
+					</section>
+					<section>
+						<h2>Text shadow example</h2>
+						<p>
+							<small>Example:</small>
+							<pre>
+								<code class="hljs js">function drawText() {
+	let canvas = document.getElementById('canvas-text');
+	if (canvas.getContext){
+		let ctx = canvas.getContext('2d');
+		ctx.shadowOffsetX = 2;
+		ctx.shadowOffsetY = 2;
+		ctx.shadowBlur = 2;
+		ctx.shadowColor = "rgba(0, 0, 0, 0.5)";
+		ctx.font = "50px SapientSansLightItalic";
+		ctx.fillStyle = "#FF0000";
+		ctx.fillText ("Sapient Nitro", 50, 80);
+	}
+}</code>
+							</pre>
+						</p>
+					</section>
+					<section>
+						<h2>Text shadow example</h2>
+						<p><small>Result:</small></p>
+						<img width="352" height="129" data-src="./assets/textshadow.png" alt="Canvas text shadow">
+					</section>
+					<section>
+						<h2 style="text-transform: none;">measureText()</h2>
+					</section>
+				</section>
+				<section>
+					<h2>Examples on <a href="http://www.html5rocks.com/en/tutorials/canvas/texteffects/" target="blank">www.html5rocks.com</a></h2>
+				</section>
+				<section>
+					<h2>The END</h2>
+					<p>Thanks for attention.</p>
+					<p><small> The presentation was prepared by <a href="https://vk.com/alexspawn" target="blank">Alexander Sitnikov</a>.</small></p>
+				</section>
+			</div>
+		</div>
+
+		<script src="js/reveal.js"></script>
+		<script>
+			Reveal.initialize({
+				controls: true,
+				progress: true,
+				center: true,
+				hash: true,
+				transition: 'slide',
+				dependencies: [
+					{ src: 'plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: 'plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: 'plugin/highlight/highlight.js', async: true },
+					{ src: 'plugin/search/search.js', async: true },
+					{ src: 'plugin/zoom-js/zoom.js', async: true },
+					{ src: 'plugin/notes/notes.js', async: true }
+				]
+			});
+		</script>
+	</body>
+</html>

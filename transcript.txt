@@ -1,0 +1,275 @@
+HTML5 Canvas (Slide 1):
+
+	Hi! Today we will talk about canvas.
+	--Definition--
+	<canvas> is an HTML5 element used to draw graphics, on the fly, for example - via JavaScript.
+	The <canvas> element has no drawing abilities of its own (it is only a container for graphics) - you
+	must use a script to actually draw the graphics. It can, for instance, be used to draw graphs,
+	make photo compositions or do simple (and not so simple) animations.
+	
+CANVAS ATTRIBUTES (Slide 2)
+
+	<canvas> element has only two attributes - width and height. These are both optional and 
+	can also be set using DOM properties.
+
+	WIDTH & HEIGHT (Slide 2.1)
+
+		When no width and height attributes are specified, the canvas will initially be 300 pixels 
+		wide and 150 pixels high. The element can be sized arbitrarily by CSS, but during rendering 
+		the image is scaled to fit its layout size. Closing </canvas> tag is required by HTML5 standards.
+
+		Canvas can be styled using CSS, but the graphics inside the canvas will not be affected. 
+		Without any javascript, canvas is a transparent element.
+
+	FALLBACK CONTENT (Slide 2.2)
+
+		Fallback content can be specified between opening <canvas> and closing </canvas> tags.
+
+	getContext() method (Slide 3)
+
+	In order to draw graphics on the canvas, we need to use javascript getContext() method. 
+	It returns an object that provides methods and properties for drawing on the canvas.
+
+	canvas.getContext('2d'); (Slide 3.1)
+
+		getContext() method takes one parameter, the type of context. There can be "2d" or "webgl" contexts. 
+		This presentation focuses on the "2d" context.
+
+		ctx now has access to all the drawing methods.
+
+	BROWSER SUPPORT (Slide 4)
+
+	Canvas was first introduced by Apple for the Mac OS X Dashboard and later implemented in Safari and Google Chrome.
+	Unsupported browsers are Internet Explorer 9(nine), Internet Explorer 8(eight) and earlier versions of Firefox, Opera,
+	Chrome, Safari, Gecko 1.8 (one point eight)-based browsers, such as Firefox 1.5 (version one point five)
+
+	CHECKING FOR BROWSER SUPPORT (Slide 4.1)
+
+		The fallback content is displayed in browsers which do not support <canvas>. 
+		Scripts can also check for support programmatically by simply testing for the presence of the getContext() method.
+
+	THE CANVAS GRID (Slide 5)
+
+	1 unit in the grid corresponds to 1 pixel on the canvas. The top left corner corresponds to coordinate (0,0).
+	All elements are placed relative to this origin.
+
+	RECTANGLES, CIRCLES, LINES, AND CURVES (Slide 6)
+
+	<canvas> only supports one primitive shape: rectangles. All other shapes must be created by combining one or more paths. 
+	We can use several path drawing functions which make it possible to compose very complex shapes. We can have linear paths, 
+	arcs and bezier curve paths.
+
+	RECTANGLES (Slide 6.2)
+
+		There are three functions that draw rectangles on the canvas:
+		fillRect(x, y, width, height) draws a filled rectangle. strokeRect(x, y, width, height) draws a rectangular outline. 
+		clearRect(x, y, width, height) clears the specified rectangular area, making it fully transparent.
+		Each of these three functions takes the same parameters. x and y specify the position on the canvas 
+		(relative to the origin) of the top-left corner of the rectangle. Width and height provide the rectangle's size.
+
+		All 3 functions draw a rectangle immediately on the canvas.
+
+	RECTANGLES RESULT (Slide 6.3)
+
+		The fillRect() function draws a large black square 100 (one hundred) pixels on each side. 
+		The clearRect() function then erases a 60x60 pixel square from the center, and then strokeRect() 
+		is called to create a rectangular outline 50x50 pixels within the cleared square.
+
+	CIRCLES (Slide 6.4)
+
+		To draw arcs or circles, we use the arc() method.
+		arc(x, y, radius, startAngle, endAngle, anticlockwise) draws an arc.
+		x and y are the coordinates of the center of the circle on which the arc should be drawn. radius is self-explanatory. 
+		The startAngle and endAngle parameters define the start and end points of the arc in radians, along the curve of the circle. 
+		These are measured from the x axis. The anticlockwise parameter is a Boolean value which, when true, draws the arc 
+		anticlockwise; otherwise, the arc is drawn clockwise.
+
+		Angles in the arcfunction are measured in radians, not degrees. 
+
+	CIRCLES RESULT (Slide 6.5)
+
+		The first circle uses stroke(). The second one uses fill().
+	
+	radius convert (Slide 6.6)
+
+		To convert degrees to radians you can use the following JavaScript expression: radians = (Math.PI/180)*degrees.
+
+	DRAWING LINES (Slide 7)
+
+	We can draw simple linear lines, bezier curves and other complex forms using path functions.
+
+	Before we start, there are a few methods used in drawing and manipulating lines, as well as rectangles and arcs. 
+	These methods allow drawing multiple lines and shapes in the same canvas, resulting in complex images.
+
+	beginPath() (Slide 7.2)
+
+		First thing when we start drawing shapes, we have to call the beginPath(). 
+		Internally, paths are stored as a list of sub-paths (lines, arcs, etc) which together form a shape. 
+		Every time this method is called, the list is reset and we can start drawing new shapes.
+
+	closePath() VS fill() (Slide 7.3)	
+
+		closePath() is optional and tries to close the shape by drawing a straight line from the current point to the start. 
+		If the shape has already been closed or there's only one point in the list, this function does nothing.
+
+		Alternatively, we can use fill(). This function automatically closes the path and also fills in the shape with color or 
+		patterns. When you call fill(), any open shapes are closed automatically, so you don't have to call closePath().
+
+	stroke() (Slide 7.4)
+
+		What if we don't want a solid shape? We can use stroke() to draw an empty shape. stroke() 
+		draws the shape by stroking its outline.
+
+	stroke() RESULT (Slide 7.5)
+
+		If we don't use fill() nor stroke(), the path or shape will be completely transparent.
+
+	moveTo() (Slide 7.6)
+
+		Once we've drawn a line or shape and we want to add another one to the same canvas, we have to use moveTo() 
+		to set a different starting point. If we don't use moveTo, the new line or shape will be considered 
+		part of the initial shape.
+
+		moveTo(x, y) Moves the starting point for a path to the coordinates specified by x and y.
+
+	moveTo() RESULT (Slide 7.7)
+
+		This is the result of the previous function.
+
+	BEZIER CURVES (Slide 8)
+
+		quadraticCurveTo(cp1x, cp1y, x, y) draws a quadratic Bézier curve from the current position to the end 
+	point specified by x and y, using the control point specified by cp1x and cp1y. 
+		bezierCurveTo(cp1x, cp1y, cp2x, cp2y, x, y) draws a cubic Bézier curve from the current position to the end point 
+	specified by x and y, using the control points specified by (cp1x, cp1y) and (cp2x, cp2y).
+	
+	The difference between a quadratic Bézier curve and a cubic Bézier curve is that the quadratic curve has just one control 
+	point while a cubic Bézier curve uses two control points.
+
+	The x and y parameters in both of these methods are the coordinates of the end point.
+
+	DRAW A HEART (Slide 8.2)
+
+		Let's draw a heart!
+
+	COLORS AND GRADIENTS (Slide 9)
+
+	COLORS and GRADIENTS!
+
+	COLORS (Slide 10)
+
+		fillStyle = color Sets the style used when filling shapes. strokeStyle = color Sets the style for shapes' outlines.
+		Possible color values: "orange", "#FFA500", "rgb(255,165,0)", "rgba(255,165,0,1)"
+
+	Red heart (Slide 10.2)
+
+		Let's draw a red heart!
+
+	Red heart RESULT (Slide 10.3)
+
+		This is the result of the previous function.
+
+	TRANSPARENCY (Slide 10.3)
+
+		Let's make our heart transparent!
+
+	TRANSPARENCY RESULT (Slide 10.4)
+
+		This is the result of the previous function.
+
+	LINE STYLES (Slide 11)
+
+	lineWidth = value Sets the widths of lines drawn in the future. 
+
+	lineCap = type Sets the appearance of the ends of lines. It can be butt, round, square. 
+
+	lineJoin = type Sets the appearance of the "corners" where lines meet. It can be round, bevel, miter. 
+
+	miterLimit = value Establishes a limit on the miter when two lines join at a sharp angle, to let you control 
+	how thick the junction becomes.
+
+	GRADIENTS (Slide 12)
+
+	createLinearGradient(x1, y1, x2, y2) Creates a linear gradient object with a starting point of (x1, y1) 
+	and an end point of (x2, y2). 
+	
+	createRadialGradient(x1, y1, r1, x2, y2, r2) Creates a radial gradient. 
+	The parameters represent two circles, one with its center at (x1, y1) and a radius of r1, 
+	and the other with its center at (x2, y2) with a radius of r2. 
+	
+	gradient.addColorStop(position, color) Creates a new color stop on the gradient object. The position is a number 
+	between 0.0 and 1.0. You can add as many color stops as you want.
+
+	GRADIENTS EXAMPLE (Slide 12.2)
+
+		For example, write and execute this code.
+
+	GRADIENTS RESULT (Slide 12.3)
+
+		This is the result of the previous function.
+
+	IMAGES (Slide 13)
+
+	We can use images from scratch using new Image() method or we can use images that already exist on the 
+	page by using document.getElementById()
+
+	When this script gets executed, the image starts loading.
+
+	drawImage(image, x, y) (Slide 13.2)
+
+		Once the image loads, we can use drawImage() to render it on the canvas. 
+		Make sure the image loads before calling the method.
+
+	SCALING AND SLICING (Slide 13.2)
+
+		The image can also be scaled by using drawImage(image, x, y, width, height). The image can be sliced 
+		by using drawImage(image, sx, sy, sWidth, sHeight, dx, dy, dWidth, dHeight) method.
+
+	PATTERNS (Slide 13.3)
+
+		Let's create pattern using this method -> createPattern(image, "repeat")
+
+	PATTERNS RESULT (Slide 13.4)
+
+		This is the result of the previous function.
+
+	TEXT AND TEXT SHADOW (Slide 14)
+
+	Canvas text support is actually pretty good - you can control font, size, color, horizontal alignment, vertical alignment, 
+	and you can also get text metrics to get the text width in pixels. In addition, you can also use canvas transforms to rotate, 
+	stretch and even invert text. The text can use colors or patterns.
+
+	TEXT (Slide 14.2)
+
+	Canvas can take advantage of fonts defined in a CSS file using @font-face, and can fall back to multiple different 
+	fonts if the defined font is not available. It's important to know that Canvas text does not use CSS for styles.
+
+	TEXT RESULT (Slide 14.3)
+
+		This is the result of the previous function.
+
+	TEXT SHADOW EXAMPLE (Slide 14.4)
+
+		Let's try to add shadow to the text.
+
+	TEXT SHADOW EXAMPLE RESULT (Slide 14.5)
+
+		This is the result of the previous function.
+
+	measureText() (Slide 14.5)
+
+		measureText() method will return some properties about that text, based on the current context 
+		settings (font face, size, and so on) in the form of a TextMetrics object. The TextMetrics object has only a 
+		single property: width. The width property of a TextMetrics object gives you the exact width in pixels of the 
+		text when rendered on the canvas. This can be very useful when attempting to center text.
+
+	EXAMPLES (Slide 15)
+
+	Examples can be viewed at www.html5rocks.com
+	(not advertising)
+
+	The END (Slide 16)
+
+	So, in this presentation we covered the main methods of using canvas HTML5!
+	Thanks for attention.
+	Bye!
